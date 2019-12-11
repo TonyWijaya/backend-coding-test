@@ -1,0 +1,352 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Xendit Backend Coding Test",
+    "description": "This is API documentation of Xendit Backend Coding Test",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8010"
+    }
+  ],
+  "tags": [
+    {
+      "name": "health",
+      "description": "Healthiness of API"
+    },
+    {
+      "name": "rides",
+      "description": "Rides APIs"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Check healthiness of API",
+        "operationId": "checkHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string",
+                  "example": "Healthy"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rides": {
+      "post": {
+        "tags": [
+          "rides"
+        ],
+        "summary": "Add a new ride",
+        "operationId": "addRide",
+        "requestBody": {
+          "description": "Rides request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rides"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RidesResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error_code": "VALIDATION_ERROR",
+                  "message": "Rider name must be a non empty string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error_code": "SERVER_ERROR",
+                  "message": "Unknown Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "rides"
+        ],
+        "summary": "Get all rides",
+        "operationId": "getRides",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RidesResponse"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Rides Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error_code": "RIDES_NOT_FOUND_ERROR",
+                  "message": "Could not find any rides"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error_code": "SERVER_ERROR",
+                  "message": "Unknown Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rides/{id}": {
+      "get": {
+        "tags": [
+          "rides"
+        ],
+        "summary": "Get ride with specific id",
+        "operationId": "getRide",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "example": 1,
+            "description": "The ride id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RidesResponse"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Rides Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error_code": "RIDES_NOT_FOUND_ERROR",
+                  "message": "Could not find any rides"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error_code": "SERVER_ERROR",
+                  "message": "Unknown Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Rides": {
+        "type": "object",
+        "properties": {
+          "start_lat": {
+            "description": "Start latitude of rides.",
+            "type": "number",
+            "format": "decimal",
+            "minimum": -90,
+            "maximum": 90,
+            "example": -6.2
+          },
+          "start_long": {
+            "description": "Start longitude of rides.",
+            "type": "number",
+            "format": "decimal",
+            "minimum": -180,
+            "maximum": 180,
+            "example": 106.816666
+          },
+          "end_lat": {
+            "description": "End langitude of rides.",
+            "type": "number",
+            "format": "decimal",
+            "minimum": -90,
+            "maximum": 90,
+            "example": -6.914744
+          },
+          "end_long": {
+            "description": "End longitude of rides.",
+            "type": "number",
+            "format": "decimal",
+            "minimum": -180,
+            "maximum": 180,
+            "example": 107.60981
+          },
+          "rider_name": {
+            "description": "Name of user who takes rides service.",
+            "type": "string",
+            "minLength": 1,
+            "example": "Cecep Gorbacep"
+          },
+          "driver_name": {
+            "description": "Name of person who drives the vehicle.",
+            "type": "string",
+            "minLength": 1,
+            "example": "Mas Sinis"
+          },
+          "driver_vehicle": {
+            "description": "Name of vehicle which is driven by driver.",
+            "type": "string",
+            "minLength": 1,
+            "example": "Argo Parahyangan"
+          }
+        }
+      },
+      "RidesResponse": {
+        "type": "object",
+        "properties": {
+          "rideID": {
+            "description": "Auto generated unique ID for rides.",
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          },
+          "startLat": {
+            "description": "Start latitude of rides.",
+            "type": "number",
+            "format": "decimal",
+            "example": -6.2
+          },
+          "startLong": {
+            "description": "Start longitude of rides.",
+            "type": "number",
+            "format": "decimal",
+            "example": 106.816666
+          },
+          "endLat": {
+            "description": "End langitude of rides.",
+            "type": "number",
+            "format": "decimal",
+            "example": -6.914744
+          },
+          "endLong": {
+            "description": "End longitude of rides.",
+            "type": "number",
+            "format": "decimal",
+            "example": 107.60981
+          },
+          "riderName": {
+            "description": "Name of user who takes rides service.",
+            "type": "string",
+            "example": "Cecep Gorbacep"
+          },
+          "driverName": {
+            "description": "Name of person who drives the vehicle.",
+            "type": "string",
+            "example": "Mas Sinis"
+          },
+          "driverVehicle": {
+            "description": "Name of vehicle which is driven by driver.",
+            "type": "string",
+            "example": "Argo Parahyangan"
+          },
+          "created": {
+            "description": "Date time when rides happened.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2012-12-20 20:12:20"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error_code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
