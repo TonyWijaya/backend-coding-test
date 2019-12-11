@@ -17,5 +17,10 @@ db.serialize(() => {
 
     const app = require('./src/app')(db);
 
+    const swaggerUi = require('swagger-ui-express');
+    const openApiDocumentation = require('./docs/open_api_docs.json');
+
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
+
     app.listen(port, () => console.log(`App started and listening on port ${port}`));
 });
