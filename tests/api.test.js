@@ -224,4 +224,36 @@ describe('API tests', () => {
         })
     })
   })
+
+  // Testing get rides by id endpoint
+  // giving an existing ride
+  describe('GET /rides/:id', () => {
+    it('should response with json containing a single ride', (done) => {
+      request(app)
+        .get('/rides/1')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
+
+  // Testing get rides by id endpoint
+  // giving a non-existing ride
+  describe('GET /rides/:id', () => {
+    it('should respond with 404: rider not found', (done) => {
+      request(app)
+        .get('/rides/999')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
 })
