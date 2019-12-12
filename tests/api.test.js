@@ -208,4 +208,20 @@ describe('API tests', () => {
         })
     })
   })
+
+  // Testing get all rides endpoint
+  // There are rides records
+  describe('GET /rides', () => {
+    it('should GET all the rides', (done) => {
+      request(app)
+        .get('/rides')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
 })
