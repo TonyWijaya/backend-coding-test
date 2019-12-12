@@ -94,7 +94,7 @@ module.exports = (db) => {
         const errorCode = 'SERVER_ERROR'
         const message = 'Unknown Error'
         const statusCode = 500
-  
+
         log.error(`${statusCode} - ${errorCode} - ${endpoint} - ${message}`)
         return res.send({
           error_code: errorCode,
@@ -104,11 +104,11 @@ module.exports = (db) => {
 
       db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, function (err, rows) {
         if (err) {
-            const errorCode = 'SERVER_ERROR'
-            const message = 'Unknown Error'
-            const statusCode = 500
-        
-            log.error(`${statusCode} - ${errorCode} - ${endpoint} - ${message}`)
+          const errorCode = 'SERVER_ERROR'
+          const message = 'Unknown Error'
+          const statusCode = 500
+
+          log.error(`${statusCode} - ${errorCode} - ${endpoint} - ${message}`)
 
           return res.send({
             error_code: errorCode,
@@ -130,7 +130,7 @@ module.exports = (db) => {
         const errorCode = 'SERVER_ERROR'
         const message = 'Unknown Error'
         const statusCode = 500
-    
+
         log.error(`${statusCode} - ${errorCode} - ${endpoint} - ${message}`)
         return res.send({
           error_code: errorCode,
@@ -142,11 +142,11 @@ module.exports = (db) => {
         const errorCode = 'RIDES_NOT_FOUND_ERROR'
         const message = 'Could not find any rides'
         const statusCode = 500
-    
+
         log.error(`${statusCode} - ${errorCode} - ${endpoint} - ${message}`)
 
         return res.status(404).send({
-          error_code: error_code,
+          error_code: errorCode,
           message: message
         })
       }
@@ -164,7 +164,7 @@ module.exports = (db) => {
         const errorCode = 'SERVER_ERROR'
         const message = 'Unknown Error'
         const statusCode = 500
-    
+
         log.error(`${statusCode} - ${errorCode} - ${endpoint} - ${message}`)
 
         return res.send({
@@ -177,7 +177,7 @@ module.exports = (db) => {
         const errorCode = 'RIDES_NOT_FOUND_ERROR'
         const message = 'Could not find any rides'
         const statusCode = 404
-    
+
         log.error(`${statusCode} - ${errorCode} - ${endpoint} - ${message}`)
         return res.status(404).send({
           error_code: errorCode,
