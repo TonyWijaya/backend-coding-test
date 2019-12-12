@@ -1,0 +1,45 @@
+config:
+  target: 'http://localhost:8010'
+  phases:
+    - duration: 30
+      arrivalRate: 100
+  defaults:
+    headers:
+      Content-Type: "application/json"
+scenarios:
+  - flow:
+    - get:
+        url: "/health"
+    - get:
+        url: "/rides"
+    - post:
+        url: "/rides"
+        json:
+          start_lat: -6.2
+          start_long: 106.816666
+          end_lat: -6.914744
+          end_long: 107.60981
+          rider_name: 'Cecep Gorbacep'
+          driver_name: 'Mas Sinis'
+          driver_vehicle: 'Argo Parahyangan'
+    - post:
+        url: "/rides"
+        json:
+          start_lat: -91
+          start_long: 106.816666
+          end_lat: -6.914744
+          end_long: 107.60981
+          rider_name: 'Cecep Gorbacep'
+          driver_name: 'Mas Sinis'
+          driver_vehicle: 'Argo Parahyangan'
+    - get:
+        url: "/rides"
+    - get:
+        url: "/rides"
+        qs:
+          page: 2
+          limit: 2
+    - get:
+        url: "/rides/{{ id }}"
+        json:
+            id: "{{ id }}"
