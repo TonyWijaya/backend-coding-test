@@ -73,4 +73,139 @@ describe('API tests', () => {
         })
     })
   })
+
+  // Testing post ride endpoint
+  // '400' Bad Request scenario
+  // Start coordinate validation error
+  describe('POST /rides', function () {
+    const data = {
+      start_lat: -91, // value out of bound
+      start_long: 106.816666,
+      end_lat: -6.914744,
+      end_long: 107.60981,
+      rider_name: 'Cecep Gorbacep',
+      driver_name: 'Mas Sinis',
+      driver_vehicle: 'Argo Parahyangan'
+    }
+    it('respond with 400 Bad Request: start coordinate out of bound', function (done) {
+      request(app)
+        .post('/rides')
+        .send(data)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
+
+  // Testing post ride endpoint
+  // '400' Bad Request scenario
+  // End coordinate validation error
+  describe('POST /rides', function () {
+    const data = {
+      start_lat: -6.2,
+      start_long: 106.816666,
+      end_lat: -6.914744,
+      end_long: 181, // value out of bound
+      rider_name: 'Cecep Gorbacep',
+      driver_name: 'Mas Sinis',
+      driver_vehicle: 'Argo Parahyangan'
+    }
+    it('respond with 400 Bad Request: end coordinate out of bound', function (done) {
+      request(app)
+        .post('/rides')
+        .send(data)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
+
+  // Testing post ride endpoint
+  // '400' Bad Request scenario
+  // Rider name is empty
+  describe('POST /rides', function () {
+    const data = {
+      start_lat: -6.2,
+      start_long: 106.816666,
+      end_lat: -6.914744,
+      end_long: 107.60981,
+      rider_name: '',
+      driver_name: 'Mas Sinis',
+      driver_vehicle: 'Argo Parahyangan'
+    }
+    it('respond with 400 Bad Request: rider name is empty', function (done) {
+      request(app)
+        .post('/rides')
+        .send(data)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
+
+  // Testing post ride endpoint
+  // '400' Bad Request scenario
+  // Driver name is empty
+  describe('POST /rides', function () {
+    const data = {
+      start_lat: -6.2,
+      start_long: 106.816666,
+      end_lat: -6.914744,
+      end_long: 107.60981,
+      rider_name: 'Cecep Gorbacep',
+      driver_name: '',
+      driver_vehicle: 'Argo Parahyangan'
+    }
+    it('respond with 400 Bad Request: driver name is empty', function (done) {
+      request(app)
+        .post('/rides')
+        .send(data)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
+
+  // Testing post ride endpoint
+  // '400' Bad Request scenario
+  // Driver vehicle is empty
+  describe('POST /rides', function () {
+    const data = {
+      start_lat: -6.2,
+      start_long: 106.816666,
+      end_lat: -6.914744,
+      end_long: 107.60981,
+      rider_name: 'Cecep Gorbacep',
+      driver_name: 'Mas Sinis',
+      driver_vehicle: ''
+    }
+    it('respond with 400 Bad Request: driver vehicle is empty', function (done) {
+      request(app)
+        .post('/rides')
+        .send(data)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
 })
