@@ -17,6 +17,11 @@
     "lines": 80,
     "statements": 80
   },
+  "pre-push": [
+    "pretest",
+    "test",
+    "start"
+  ],
   "keywords": [
     "Xendit"
   ],
@@ -39,6 +44,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
+    "pre-push": "^0.1.1",
     "supertest": "^4.0.2",
     "typescript": "^3.7.3"
   }
