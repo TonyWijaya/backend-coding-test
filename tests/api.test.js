@@ -47,4 +47,30 @@ describe('API tests', () => {
         })
     })
   })
+
+  // Testing post ride endpoint
+  // '200' OK scenario
+  describe('POST /rides', function () {
+    const data = {
+      start_lat: -6.2,
+      start_long: 106.816666,
+      end_lat: -6.914744,
+      end_long: 107.60981,
+      rider_name: 'Cecep Gorbacep',
+      driver_name: 'Mas Sinis',
+      driver_vehicle: 'Argo Parahyangan'
+    }
+    it('respond with 200 OK: Rides created', function (done) {
+      request(app)
+        .post('/rides')
+        .send(data)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
 })
