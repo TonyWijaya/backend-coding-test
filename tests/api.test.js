@@ -210,18 +210,86 @@ describe('API tests', () => {
   })
 
   // Testing get all rides endpoint
-  // There are rides records
+  // With no query
   describe('GET /rides', () => {
-    it('should GET all the rides', (done) => {
-      request(app)
-        .get('/rides')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end((err) => {
-          if (err) return done(err)
-          done()
+    const limit = 3
+    const page = 1
+
+    it(`should GET all the rides with default page ${page} and limit ${limit}`, (done) => {
+      var agent = request(app)
+
+      const data = {
+        start_lat: -6.2,
+        start_long: 106.816666,
+        end_lat: -6.914744,
+        end_long: 107.60981,
+        rider_name: 'Cecep Gorbacep',
+        driver_name: 'Mas Sinis',
+        driver_vehicle: 'Argo Parahyangan'
+      }
+
+      agent.post('/rides').type('json').send(data).end(function () {
+        agent.post('/rides').type('json').send(data).end(function () {
+          agent.post('/rides').type('json').send(data).end(function () {
+            agent.post('/rides').type('json').send(data).end(function () {
+              agent.get('/rides')
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .expect(function (res) {
+                  if (Number(res.body.page) !== page) throw new Error(`Default page must be ${page}`)
+                  if (Number(res.body.limit) !== limit || res.body.results.length > limit) throw new Error(`Default limit must be ${limit}`)
+                })
+                .end(function (err) {
+                  if (err) return done(err)
+                  done()
+                })
+            })
+          })
         })
+      })
+    })
+  })
+
+  // Testing get all rides endpoint
+  // With page and limit query
+  describe('GET /rides', () => {
+    const limit = 2
+    const page = 2
+
+    it(`should GET all the rides with page ${page} and limit ${limit}`, (done) => {
+      var agent = request(app)
+
+      const data = {
+        start_lat: -6.2,
+        start_long: 106.816666,
+        end_lat: -6.914744,
+        end_long: 107.60981,
+        rider_name: 'Cecep Gorbacep',
+        driver_name: 'Mas Sinis',
+        driver_vehicle: 'Argo Parahyangan'
+      }
+
+      agent.post('/rides').type('json').send(data).end(function () {
+        agent.post('/rides').type('json').send(data).end(function () {
+          agent.post('/rides').type('json').send(data).end(function () {
+            agent.post('/rides').type('json').send(data).end(function () {
+              agent.get(`/rides?page=${page}&limit=${limit}`)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .expect(function (res) {
+                  if (Number(res.body.page) !== page) throw new Error(`Page must be ${page}`)
+                  if (Number(res.body.limit) !== limit || res.body.results.length > limit) throw new Error(`Limit must be ${limit}`)
+                })
+                .end(function (err) {
+                  if (err) return done(err)
+                  done()
+                })
+            })
+          })
+        })
+      })
     })
   })
 

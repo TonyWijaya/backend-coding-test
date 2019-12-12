@@ -125,7 +125,12 @@ module.exports = (db) => {
     const endpoint = '/GET rides'
     log.info(`Hitting endpoint: ${endpoint}`)
 
-    db.all('SELECT * FROM Rides', function (err, rows) {
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 3
+
+    const offset = (page - 1) * limit
+
+    db.all(`SELECT * FROM Rides LIMIT ${offset},${limit}`, function (err, rows) {
       if (err) {
         const errorCode = 'SERVER_ERROR'
         const message = 'Unknown Error'
@@ -151,7 +156,13 @@ module.exports = (db) => {
         })
       }
 
-      res.send(rows)
+      var response = {
+        page: page,
+        limit: limit,
+        results: rows
+      }
+
+      res.send(response)
     })
   })
 
