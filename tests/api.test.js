@@ -257,7 +257,7 @@ describe('API tests', () => {
     const limit = 2
     const page = 2
 
-    it(`should GET all the rides with default page ${page} and limit ${limit}`, (done) => {
+    it(`should GET all the rides with page ${page} and limit ${limit}`, (done) => {
       var agent = request(app)
 
       const data = {
