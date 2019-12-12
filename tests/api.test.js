@@ -324,4 +324,24 @@ describe('API tests', () => {
         })
     })
   })
+
+  // Testing SQL Injection
+  // give input that can retrieve all records if vulnerable to SQL injection
+  describe('GET /rides/:id', () => {
+    const input = '105 OR 1=1'
+    it('should response with 404: Rides not found', (done) => {
+      request(app)
+        .get(`/rides/${input}`)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404)
+        .expect(function (res) {
+          if (res.body.length > 1) throw new Error('Vulnerable to SQL injection')
+        })
+        .end((err) => {
+          if (err) return done(err)
+          done()
+        })
+    })
+  })
 })
