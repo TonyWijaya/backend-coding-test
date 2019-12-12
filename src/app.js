@@ -119,7 +119,7 @@ module.exports = (db) => {
 
     const offset = (page - 1) * limit
 
-    db.all(`SELECT * FROM Rides LIMIT ${offset},${limit}`, function (err, rows) {
+    db.all('SELECT * FROM Rides LIMIT ?,?', offset, limit, function (err, rows) {
       if (err) {
         const errorCode = 'SERVER_ERROR'
         const message = 'Unknown Error'
@@ -132,7 +132,6 @@ module.exports = (db) => {
         })
       }
 
-      console.log(rows.length)
       if (rows.length === 0) {
         const errorCode = 'RIDES_NOT_FOUND_ERROR'
         const message = 'Could not find any rides'
@@ -160,7 +159,7 @@ module.exports = (db) => {
     const endpoint = '/GET rides/:id'
     log.info(`Hitting endpoint: ${endpoint}`)
 
-    db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, function (err, rows) {
+    db.all('SELECT * FROM Rides WHERE rideID = ?', req.params.id, function (err, rows) {
       if (err) {
         const errorCode = 'SERVER_ERROR'
         const message = 'Unknown Error'
